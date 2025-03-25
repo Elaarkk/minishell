@@ -9,7 +9,7 @@ RM = rm -rf
 
 INC = ./includes/
 
-SRCS = ./sources/main.c
+SRCS = ./sources/main.c ./sources/utils.c ./tokenization/token.c ./sources/error.c ./tokenization/syntax_check.c
 
 OBJDIR = ./obj
 

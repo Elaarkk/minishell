@@ -6,11 +6,13 @@
 /*   By: acolonne <acolonne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 18:43:21 by acolonne          #+#    #+#             */
-/*   Updated: 2025/03/24 19:50:42 by acolonne         ###   ########.fr       */
+/*   Updated: 2025/03/25 19:38:24 by acolonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int SIGNAL = 0;
 
 void	logo()
 {
@@ -38,25 +40,28 @@ void	logo()
     printf("     ~ ----- ~                                            ~ ----- ~  -MINISHELL\n");
 }
 
-int	check_prompt(char *prompt)
-{
-
-	return (1);
-}
-
 int	main()
 {
-	char	*prompt;
+	char	    *content;
+    t_prompt    *prompt;
 
 	prompt = 0;
+    content = 0;
 	logo();
 	while (1)
 	{
-		prompt = readline("$> ");
-		if (prompt)
-			add_history(prompt);
-		check_prompt(prompt);
-		free(prompt);
+		content = readline("$> ");
+		if (content)
+			add_history(content);
+        prompt = cut_prompt(content);
+        check_prompt(prompt);
+		if (strncmp(content, "exit", 4) == 0)
+        {
+            rl_clear_history();
+            exit_clean(0, prompt);
+        }
+        free_all(&prompt);
+        free(content);
 	}
 	return (0);
 }
